@@ -1,2 +1,0 @@
-# CommandToItem
-Spigot Plugin
