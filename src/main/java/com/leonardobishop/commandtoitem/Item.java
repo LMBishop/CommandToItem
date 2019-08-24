@@ -1,23 +1,46 @@
 package com.leonardobishop.commandtoitem;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class Item {
+
+    private Map<UUID, Long> cooldowns = new HashMap<>();
 
     private String id;
     private ItemStack itemStack;
     private List<String> commands;
+    private List<String> messages;
     private boolean consumed;
+    private int cooldown;
 
-    public Item(String id, ItemStack itemStack, List<String> commands, boolean consumed) {
+    public Item(String id, ItemStack itemStack, List<String> commands, List<String> messages, boolean consumed, int cooldown) {
         this.id = id;
         this.itemStack = itemStack;
         this.commands = commands;
+        this.messages = messages;
         this.consumed = consumed;
+        this.cooldown = cooldown;
+    }
+
+    /**
+     * Execute all actions to do with using an item (that is executing the commands,
+     * sending messages and applying cooldowns).
+     *
+     * @param player the player who is using the item
+     */
+    public void executeUseActions(Player player) {
+        executeCommands(player);
+        putOnCooldown(player);
+        sendMessages(player);
     }
 
     public void executeCommands(Player player) {
@@ -33,6 +56,41 @@ public class Item {
                 Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
             }
         }
+    }
+
+    public void sendMessages(Player player) {
+        for (String message : messages) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', message
+                    .replace("%player%", player.getName())
+                    .replace("%item%", itemStack.getItemMeta().getDisplayName())
+                    .replace("%cooldown%", String.valueOf(getCooldownFor(player)))));
+        }
+    }
+
+    public boolean isOnCooldown(Player player) {
+        if (cooldown > 0 && cooldowns.containsKey(player.getUniqueId())) {
+            long timeNow = System.currentTimeMillis();
+            long timeExpire = cooldowns.get(player.getUniqueId());
+
+            return timeExpire > timeNow;
+        } else return false;
+    }
+
+    public long getCooldownFor(Player player) {
+        if (cooldowns.containsKey(player.getUniqueId())) {
+            long timeNow = System.currentTimeMillis();
+            long timeExpire = cooldowns.get(player.getUniqueId());
+            long diff = timeExpire - timeNow;
+
+            return TimeUnit.SECONDS.convert(diff, TimeUnit.MILLISECONDS);
+        } else return 0;
+    }
+
+    public void putOnCooldown(Player player) {
+        if (cooldown <= 0) return;
+
+        long timeExpire = System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(cooldown, TimeUnit.SECONDS);
+        cooldowns.put(player.getUniqueId(), timeExpire);
     }
 
     public boolean compare(ItemStack to) {
@@ -55,8 +113,13 @@ public class Item {
         return consumed;
     }
 
+    public int getCooldown() {
+        return cooldown;
+    }
+
     @Override
     public String toString() {
         return id;
     }
+
 }

@@ -13,7 +13,7 @@ items:
     name: "&6&lMessage Console &7(Example Item)"
     item: PAPER
     lore:
-      - "&7Message the"
+      - "&7Message the server"
     commands:
       # You can use "executeas:player" at the beginning of a command to send it as the player
       - "executeas:player msg console Hi"
@@ -33,6 +33,13 @@ items:
   strength-sword:
     name: "&e&lInstant Strength &7(Example Item)"
     item: GOLD_SWORD
+    # You can add messages which will be sent to the player upon consumption
+    # You can use:
+    #   %item% for the name of the item
+    #   %player% for the players name
+    #   %cooldown% for players new cooldown after use
+    messages:
+      - "&7&oYou feel a sudden rush of blood..."
     lore:
       - "&7Gives you Strength 4"
     commands:
@@ -43,6 +50,8 @@ items:
     item: COOKIE
     # You can prevent items from being taken away when clicked
     consume: false
+    # You can also add a short cooldown to prevent it from being spammed
+    cooldown: 60
     lore:
       - "&7Does not get consumed"
     commands:
@@ -57,3 +66,4 @@ messages:
   full-inv: "&c%player%'s inventory is full!"
   give-item: "&6Given &e%player% %item%&6."
   receive-item: "&6You have been given %item%&6."
+  cooldown: "&cYou must wait &4%cooldown% &cseconds before using this item again."

@@ -21,10 +21,7 @@ public class UseItem implements Listener {
     @EventHandler
     public void onPlayerUse(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if (player.getItemInHand() != null && player.getItemInHand().getType() != Material.AIR) {
-            if (player.getItemInHand().getType() == Material.AIR) {
-                return;
-            }
+        if (event.getItem() != null && event.getItem().getType() != Material.AIR) {
             ItemStack is = player.getItemInHand();
 
             Item item = null;
@@ -41,6 +38,11 @@ public class UseItem implements Listener {
                 if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
                     return;
                 }
+                if (item.isOnCooldown(event.getPlayer())) {
+                    event.getPlayer().sendMessage(plugin.getMessage(CommandToItem.Message.COOLDOWN)
+                            .replace("%cooldown%", String.valueOf(item.getCooldownFor(event.getPlayer()))));
+                    return;
+                }
                 if (item.isConsumed()) {
                     if (is.getAmount() == 1) {
                         player.setItemInHand(null);
@@ -52,7 +54,7 @@ public class UseItem implements Listener {
                     player.updateInventory();
                 }
 
-                item.executeCommands(player);
+                item.executeUseActions(player);
             }
         }
     }

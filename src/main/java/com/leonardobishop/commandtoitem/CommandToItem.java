@@ -13,8 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CommandToItem extends JavaPlugin {
 
@@ -37,10 +36,12 @@ public class CommandToItem extends JavaPlugin {
                 } catch (IOException e) {
                     super.getLogger().severe("Failed to create config.");
                     e.printStackTrace();
+                    super.getLogger().severe(ChatColor.RED + "...please delete the CommandToItem directory and try RESTARTING (not reloading).");
                 }
             } catch (IOException e) {
                 super.getLogger().severe("Failed to create config.");
                 e.printStackTrace();
+                super.getLogger().severe(ChatColor.RED + "...please delete the CommandToItem directory and try RESTARTING (not reloading).");
             }
         }
         this.reloadConfig();
@@ -51,7 +52,8 @@ public class CommandToItem extends JavaPlugin {
     }
 
     public String getMessage(Message message) {
-        return ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("messages." + message.getId(), message.getDef()));
+        return ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("messages."
+                + message.getId(), message.getDef()));
     }
 
     @Override
@@ -63,8 +65,10 @@ public class CommandToItem extends JavaPlugin {
             ItemStack is = getItemStack("items." + s, this.getConfig());
             boolean consume = this.getConfig().getBoolean("items." + s + ".consume", true);
             List<String> commands = this.getConfig().getStringList("items." + s + ".commands");
+            List<String> messages = this.getConfig().getStringList("items." + s + ".messages");
+            int cooldown = this.getConfig().getInt("items." + s + ".cooldown", 0);
 
-            items.add(new Item(s.replace(" ", "_"), is, commands, consume));
+            items.add(new Item(s.replace(" ", "_"), is, commands, messages, consume, cooldown));
         }
     }
 
@@ -147,7 +151,8 @@ public class CommandToItem extends JavaPlugin {
 
         FULL_INV("full-inv", "&c%player%'s inventory is full!"),
         GIVE_ITEM("give-item", "&6Given &e%player% %item%&6."),
-        RECEIVE_ITEM("receive-item", "&6You have been given %item%&6.");
+        RECEIVE_ITEM("receive-item", "&6You have been given %item%&6."),
+        COOLDOWN("cooldown", "&cYou must wait &4%cooldown% &cseconds before using this item again.");
 
         private String id;
         private String def; // (default message if undefined)
