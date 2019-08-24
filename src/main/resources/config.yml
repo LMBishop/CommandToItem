@@ -1,0 +1,59 @@
+# List items here
+items:
+  weed:
+    name: "&2&lWeed &7(Example Item)"
+    item: WHEAT
+    lore:
+      - "&7Good quality weed"
+    commands:
+      - "effect %player% 15 2 1"
+      - "effect %player% 10 10 1"
+
+  msg-console:
+    name: "&6&lMessage Console &7(Example Item)"
+    item: PAPER
+    lore:
+      - "&7Message the"
+    commands:
+      # You can use "executeas:player" at the beginning of a command to send it as the player
+      - "executeas:player msg console Hi"
+      - "msg %player% Hi"
+
+  instant-death:
+    name: "&c&lInstant Death &7(Example Item)"
+    item: SPIDER_EYE
+    # You can give an item enchantments
+    enchantments:
+      - "ARROW_INFINITE:1"
+    lore:
+      - "&7Instantly kills you"
+    commands:
+      - "kill %player%"
+
+  strength-sword:
+    name: "&e&lInstant Strength &7(Example Item)"
+    item: GOLD_SWORD
+    lore:
+      - "&7Gives you Strength 4"
+    commands:
+      - "effect %player% 5 15 3"
+
+  infinite-cookie:
+    name: "&a&lMagic Cookie &7(Example Item)"
+    item: COOKIE
+    # You can prevent items from being taken away when clicked
+    consume: false
+    lore:
+      - "&7Does not get consumed"
+    commands:
+      - "heal %player%"
+
+# Options here
+options:
+  show-receive-message: true
+
+# Messages here
+messages:
+  full-inv: "&c%player%'s inventory is full!"
+  give-item: "&6Given &e%player% %item%&6."
+  receive-item: "&6You have been given %item%&6."

@@ -1,0 +1,18 @@
+name: CommandToItem
+
+# This will be replaced with the property "release.version" in pom.xml upon build.
+version: %PLUGIN_VERSION%
+
+main: com.leonardobishop.commandtoitem.CommandToItem
+author: LMBishop
+
+commands:
+  commandtoitem:
+    description: Main command for CommandToItem
+    usage: /commandtoitem
+    permission: commandtoitem.admin
+    aliases: [cti]
+
+permissions:
+  commandtoitem.admin:
+    description: Permission for the base command
