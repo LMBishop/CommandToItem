@@ -67,8 +67,9 @@ public class CommandToItem extends JavaPlugin {
             List<String> commands = this.getConfig().getStringList("items." + s + ".commands");
             List<String> messages = this.getConfig().getStringList("items." + s + ".messages");
             int cooldown = this.getConfig().getInt("items." + s + ".cooldown", 0);
+            String sound = this.getConfig().getString("items." + s + ".sound", null);
 
-            items.add(new Item(s.replace(" ", "_"), is, commands, messages, consume, cooldown));
+            items.add(new Item(s.replace(" ", "_"), is, commands, messages, consume, cooldown, sound));
         }
     }
 

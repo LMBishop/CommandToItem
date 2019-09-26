@@ -1,7 +1,9 @@
 package com.leonardobishop.commandtoitem;
 
+import com.leonardobishop.commandtoitem.utils.GSound;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,14 +23,16 @@ public class Item {
     private List<String> messages;
     private boolean consumed;
     private int cooldown;
+    private String sound;
 
-    public Item(String id, ItemStack itemStack, List<String> commands, List<String> messages, boolean consumed, int cooldown) {
+    public Item(String id, ItemStack itemStack, List<String> commands, List<String> messages, boolean consumed, int cooldown, String sound) {
         this.id = id;
         this.itemStack = itemStack;
         this.commands = commands;
         this.messages = messages;
         this.consumed = consumed;
         this.cooldown = cooldown;
+        this.sound = sound;
     }
 
     /**
@@ -38,6 +42,7 @@ public class Item {
      * @param player the player who is using the item
      */
     public void executeUseActions(Player player) {
+        playSounds(player);
         executeCommands(player);
         putOnCooldown(player);
         sendMessages(player);
@@ -56,6 +61,18 @@ public class Item {
                 Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
             }
         }
+    }
+
+    public void playSounds(Player player) {
+        if (sound == null || sound.equals("")) {
+            return;
+        }
+        try {
+            player.playSound(player.getLocation(), GSound.match(this.sound).parseSound(), 1, 1);
+        } catch (Exception e) {
+            // doesnt exist
+        }
+
     }
 
     public void sendMessages(Player player) {

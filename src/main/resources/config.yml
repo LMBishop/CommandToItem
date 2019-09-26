@@ -1,13 +1,18 @@
 # List items here
 items:
   weed:
+    # Name & type of item
     name: "&2&lWeed &7(Example Item)"
     item: WHEAT
+    # Lore of item (seen when mouseover)
     lore:
       - "&7Good quality weed"
+    # Commands to be executed
     commands:
-      - "effect %player% 15 2 1"
-      - "effect %player% 10 10 1"
+      - "effect give fatpigsarefat minecraft:blindness 1 1"
+      - "effect give fatpigsarefat minecraft:regeneration 15 1"
+    # Sounds to be played
+    sound: "ITEM_FLINTANDSTEEL_USE"
 
   msg-console:
     name: "&6&lMessage Console &7(Example Item)"
@@ -44,6 +49,8 @@ items:
       - "&7Gives you Strength 4"
     commands:
       - "effect %player% 5 15 3"
+    # You can add sounds too
+    sound: "ENTITY_WITHER_SHOOT"
 
   infinite-cookie:
     name: "&a&lMagic Cookie &7(Example Item)"
