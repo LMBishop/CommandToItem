@@ -3,66 +3,115 @@ items:
   weed:
     # Name & type of item
     name: "&2&lWeed &7(Example Item)"
-    item: WHEAT
+    item: WHEAT # list -> https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
     # Lore of item (seen when mouseover)
     lore:
       - "&7Good quality weed"
-    # Commands to be executed
-    commands:
-      - "effect give fatpigsarefat minecraft:blindness 1 1"
-      - "effect give fatpigsarefat minecraft:regeneration 15 1"
-    # Sounds to be played
-    sound: "ITEM_FLINTANDSTEEL_USE"
+    # Tasks to be done when the item is used
+    on-use:
+      # Commands to be executed
+      commands:
+        - "effect give %player% minecraft:blindness 1 1"
+        - "effect give %player% minecraft:regeneration 15 1"
+      # Sound to be played
+      sound: "ITEM_FLINTANDSTEEL_USE" # list -> https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
 
   msg-console:
     name: "&6&lMessage Console &7(Example Item)"
     item: PAPER
     lore:
       - "&7Message the server"
-    commands:
-      # You can use "executeas:player" at the beginning of a command to send it as the player
-      - "executeas:player msg console Hi"
-      - "msg %player% Hi"
+    on-use:
+      commands:
+        # You can use "executeas:player" at the beginning of a command to send it as the player
+        - "executeas:player msg console Hi"
+        - "msg %player% Hi"
 
   instant-death:
     name: "&c&lInstant Death &7(Example Item)"
     item: SPIDER_EYE
     # You can give an item enchantments
-    enchantments:
+    enchantments: # list -> https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html
       - "ARROW_INFINITE:1"
+    # + add the item flag to hide it
+    itemflags: # list -> https://hub.spigotmc.org/javadocs/spigot/org/bukkit/inventory/ItemFlag.html
+      - "HIDE_ENCHANTS"
     lore:
       - "&7Instantly kills you"
-    commands:
-      - "kill %player%"
+    on-use:
+      commands:
+        - "kill %player%"
 
   strength-sword:
     name: "&e&lInstant Strength &7(Example Item)"
     item: GOLD_SWORD
-    # You can add messages which will be sent to the player upon consumption
-    # You can use:
-    #   %item% for the name of the item
-    #   %player% for the players name
-    #   %cooldown% for players new cooldown after use
-    messages:
-      - "&7&oYou feel a sudden rush of blood..."
     lore:
       - "&7Gives you Strength 4"
-    commands:
-      - "effect %player% 5 15 3"
-    # You can add sounds too
-    sound: "ENTITY_WITHER_SHOOT"
+    on-use:
+      # You can add messages which will be sent to the player upon consumption
+      # You can use:
+      #   %item% for the name of the item
+      #   %player% for the players name
+      #   %cooldown% for players new cooldown after use
+      messages:
+        - "&7&oYou feel a sudden rush of blood..."
+      commands:
+        - "effect %player% 5 15 3"
+      # You can add sounds too
+      sound: "ENTITY_WITHER_SHOOT"
 
   infinite-cookie:
     name: "&a&lMagic Cookie &7(Example Item)"
     item: COOKIE
-    # You can prevent items from being taken away when clicked
-    consume: false
-    # You can also add a short cooldown to prevent it from being spammed
-    cooldown: 60
     lore:
       - "&7Does not get consumed"
-    commands:
-      - "heal %player%"
+    on-use:
+      # You can prevent items from being taken away when clicked
+      consume: false
+      # You can also add a short cooldown to prevent it from being spammed
+      cooldown: 60
+      commands:
+        - "heal %player%"
+
+  dodgy-apple:
+    name: "&2&lDodgy Apple &7(Example Item)"
+    item: APPLE
+    # You can add custom model data
+    custommodeldata: 12345
+    lore:
+      - "&7Something seems off about this apple..."
+    on-use:
+      commands:
+        - "effect give %player% minecraft:poison 15 1"
+
+  speed-boost:
+    name: "&7&lSpeed Boost &7(Example Item)"
+    item: SUGAR
+    # You can also add attribute modifiers (not recommended if you don't know what you're doing & know how to use it in game)
+    attributemodifiers:
+      - attribute: GENERIC_MOVEMENT_SPEED # list -> https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/Attribute.html
+        modifier:
+          uuid: "49dc07dc-bfdb-4dc7-85d3-66ef52b51858" # uuid (/MUST/ BE UNIQUE! - https://www.uuidgenerator.net/)
+                                                       # if unspecified, items will not work through restarts as a
+                                                       # random one is generated each time the plugin is loaded
+          name: "generic.movementSpeed"
+          operation: ADD_NUMBER # list -> https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/AttributeModifier.Operation.html
+          amount: 0.03
+          equipmentslot: HAND # (optional) list -> https://hub.spigotmc.org/javadocs/spigot/org/bukkit/inventory/EquipmentSlot.html
+      - attribute: GENERIC_MOVEMENT_SPEED
+        modifier:
+          uuid: "e22513cf-b15f-4443-9e2f-103c0ff9731b" # as said before, unique to the previous one
+          name: "generic.movementSpeed"
+          operation: ADD_NUMBER
+          amount: 0.01
+          equipmentslot: OFF_HAND
+    lore:
+      - "&7Hold this item for a minor speed boost,"
+      - "&7or consume it for a bigger speed boost."
+    on-use:
+      commands:
+        - "effect give %player% minecraft:speed 30 3"
+      cooldown: 30
 
 # Options here
 options:

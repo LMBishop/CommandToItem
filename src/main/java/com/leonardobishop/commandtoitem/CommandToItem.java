@@ -1,23 +1,22 @@
 package com.leonardobishop.commandtoitem;
 
 import com.google.common.io.ByteStreams;
+import com.leonardobishop.commandtoitem.bstats.Metrics;
 import com.leonardobishop.commandtoitem.commands.BaseCommand;
 import com.leonardobishop.commandtoitem.events.UseItem;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 
 public class CommandToItem extends JavaPlugin {
 
     private List<Item> items = new ArrayList<>();
+    private Metrics metrics;
 
     @Override
     public void onEnable() {
@@ -25,6 +24,12 @@ public class CommandToItem extends JavaPlugin {
         if (!directory.exists() && !directory.isDirectory()) {
             directory.mkdir();
         }
+
+        metrics = new Metrics(this);
+        if (metrics.isEnabled()) {
+            this.getLogger().log(Level.INFO, "Metrics started. This can be disabled at /plugins/bStats/config.yml.");
+        }
+
 
         File config = new File(this.getDataFolder() + File.separator + "config.yml");
         if (!config.exists()) {
@@ -62,12 +67,25 @@ public class CommandToItem extends JavaPlugin {
 
         items.clear();
         for (String s : this.getConfig().getConfigurationSection("items").getKeys(false)) {
-            ItemStack is = getItemStack("items." + s, this.getConfig());
-            boolean consume = this.getConfig().getBoolean("items." + s + ".consume", true);
-            List<String> commands = this.getConfig().getStringList("items." + s + ".commands");
-            List<String> messages = this.getConfig().getStringList("items." + s + ".messages");
-            int cooldown = this.getConfig().getInt("items." + s + ".cooldown", 0);
-            String sound = this.getConfig().getString("items." + s + ".sound", null);
+            ItemStack is = Item.getItemStack("items." + s, this.getConfig());
+
+            // supports old config layout without "on-use"
+            boolean consume = this.getConfig().getBoolean("items." + s + "on-use.consume",
+                    this.getConfig().getBoolean("items." + s + ".consume", true));
+
+            List<String> commands;
+            if (this.getConfig().contains("items." + s + ".on-use.commands")) commands = this.getConfig().getStringList("items." + s + ".on-use.commands");
+            else commands = this.getConfig().getStringList("items." + s + ".commands");
+
+            List<String> messages;
+            if (this.getConfig().contains("items." + s + ".on-use.messages")) messages = this.getConfig().getStringList("items." + s + ".on-use.messages");
+            else messages = this.getConfig().getStringList("items." + s + ".messages");
+
+            int cooldown = this.getConfig().getInt("items." + s + ".on-use.cooldown",
+                    this.getConfig().getInt("items." + s + ".cooldown", 0));
+
+            String sound = this.getConfig().getString("items." + s + ".on-use.sound",
+                    this.getConfig().getString("items." + s + ".sound", null));
 
             items.add(new Item(s.replace(" ", "_"), is, commands, messages, consume, cooldown, sound));
         }
@@ -77,76 +95,7 @@ public class CommandToItem extends JavaPlugin {
         return items;
     }
 
-    public ItemStack getItemStack(String path, FileConfiguration config) {
-        String cName = config.getString(path + ".name", path + ".name");
-        String cType = config.getString(path + ".item", path + ".item");
-        List<String> cLore = config.getStringList(path + ".lore");
 
-        String name;
-        Material type = null;
-        int data = 0;
-        List<String> lore = new ArrayList<>();
-        if (cLore != null) {
-            for (String s : cLore) {
-                lore.add(ChatColor.translateAlternateColorCodes('&', s));
-            }
-        }
-        name = ChatColor.translateAlternateColorCodes('&', cName);
-
-        if (StringUtils.isNumeric(cType)) {
-            type = Material.getMaterial(Integer.parseInt(cType));
-        } else if (Material.getMaterial(cType) != null) {
-            type = Material.getMaterial(cType);
-        } else if (cType.contains(":")) {
-            String[] parts = cType.split(":");
-            if (parts.length > 1) {
-                if (StringUtils.isNumeric(parts[0])) {
-                    type = Material.getMaterial(Integer.parseInt(parts[0]));
-                } else if (Material.getMaterial(parts[0]) != null) {
-                    type = Material.getMaterial(parts[0]);
-                }
-                if (StringUtils.isNumeric(parts[1])) {
-                    data = Integer.parseInt(parts[1]);
-                }
-            }
-        }
-
-        if (type == null) {
-            type = Material.STONE;
-        }
-
-
-        ItemStack is = new ItemStack(type, 1, (short) data);
-        ItemMeta ism = is.getItemMeta();
-        ism.setLore(lore);
-        ism.setDisplayName(name);
-        is.setItemMeta(ism);
-
-        if (config.isSet(path + ".enchantments")) {
-            for (String key : getConfig().getStringList(path + ".enchantments")) {
-                String[] split = key.split(":");
-                String ench = split[0];
-                String level = null;
-                if (split.length == 2) {
-                    level = split[1];
-                } else {
-                    level = "1";
-                }
-
-                if (Enchantment.getByName(ench) == null) continue;
-
-                try {
-                    Integer.parseInt(level);
-                } catch (NumberFormatException e) {
-                    level = "1";
-                }
-
-                is.addUnsafeEnchantment(Enchantment.getByName(ench), Integer.parseInt(level));
-            }
-        }
-
-        return is;
-    }
 
     public enum Message {
 
