@@ -1,3 +1,11 @@
+# =========================
+# CommandToItem by LMBishop
+# =========================
+#  - Spigot page: https://www.spigotmc.org/resources/19937/
+#  - Default config: https://github.com/LMBishop/CommandToItem/blob/master/src/main/resources/config.yml
+#  - Source code: https://github.com/LMBishop/CommandToItem
+#  - Wiki: https://github.com/LMBishop/CommandToItem/wiki/Configuration
+
 # List items here
 items:
   weed:
@@ -42,6 +50,36 @@ items:
       commands:
         - "kill %player%"
 
+  instant-kill:
+    name: "&4&lInstant Kill &7(Example Item)"
+    item: ANVIL
+    lore:
+      - "&7Instantly kills the player you are looking at"
+    usage-conditions:
+      # This item will only be used if the player is looking at someone else
+      only-on-target: true
+      # ... and if they are in the world "world"
+      in-worlds:
+        - "world"
+      # ... and NOT within the following co-ordinates (-50, 0, -50) to (50, 255, 50)
+      in-required-regions:
+        type: EXCLUDE  # (exclude the following regions,
+                       # can be set to PERMIT for the opposite effect permitting select regions only)
+        regions:
+          - world: "world"
+            pos1:      # (co-ordinate 1)
+              x: -50
+              y: 0
+              z: -50
+            pos2:      # (co-ordinate 2)
+              x: 50
+              y: 255
+              z: 50
+    on-use:
+      # You can use %target% to get the player they are looking at (WILL SKIP SINGLE COMMAND IF NO TARGET)
+      commands:
+        - "kill %target%"
+
   strength-sword:
     name: "&e&lInstant Strength &7(Example Item)"
     item: GOLD_SWORD
@@ -52,6 +90,7 @@ items:
       # You can use:
       #   %item% for the name of the item
       #   %player% for the players name
+      #   %target% for the player they clicked on (line NOT sent if no target!)
       #   %cooldown% for players new cooldown after use
       messages:
         - "&7&oYou feel a sudden rush of blood..."
@@ -123,3 +162,6 @@ messages:
   give-item: "&6Given &e%player% %item%&6."
   receive-item: "&6You have been given %item%&6."
   cooldown: "&cYou must wait &4%cooldown% &cseconds before using this item again."
+  no-target: "&cYou must be looking at someone to use this item."
+  region-not-permitted: "&cYou cannot use this item here."
+  world-not-permitted: "&cYou cannot use this item here."
