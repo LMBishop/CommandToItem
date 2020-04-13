@@ -38,11 +38,40 @@ public class UseItem implements Listener {
                 if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
                     return;
                 }
+
+                // cooldown
                 if (item.isOnCooldown(event.getPlayer())) {
                     event.getPlayer().sendMessage(plugin.getMessage(CommandToItem.Message.COOLDOWN)
                             .replace("%cooldown%", String.valueOf(item.getCooldownFor(event.getPlayer()))));
                     return;
                 }
+
+                // condition: world
+                if (item.getPermittedWorlds() != null && !item.getPermittedWorlds().isEmpty()) {
+                    if (!item.getPermittedWorlds().contains(player.getWorld().getName())) {
+                        event.getPlayer().sendMessage(plugin.getMessage(CommandToItem.Message.WORLD_NOT_PERMITTED));
+                        return;
+                    }
+                }
+
+                // condition: region
+                if (item.getRegionCondition() != null) {
+                    if (!item.getRegionCondition().validate(player.getLocation())) {
+                        event.getPlayer().sendMessage(plugin.getMessage(CommandToItem.Message.REGION_NOT_PERMITTED));
+                        return;
+                    }
+                }
+
+                // condition: target player
+                if (item.getRegionCondition() != null) {
+                    if (!item.getRegionCondition().validate(player.getLocation())) {
+                        event.getPlayer().sendMessage(plugin.getMessage(CommandToItem.Message.REGION_NOT_PERMITTED));
+                        return;
+                    }
+                }
+
+
+                // consumption
                 if (item.isConsumed()) {
                     if (is.getAmount() == 1) {
                         player.setItemInHand(null);

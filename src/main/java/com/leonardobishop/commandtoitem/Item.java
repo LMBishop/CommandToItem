@@ -1,6 +1,7 @@
 package com.leonardobishop.commandtoitem;
 
 import com.leonardobishop.commandtoitem.utils.GSound;
+import com.leonardobishop.commandtoitem.utils.RegionCondition;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -196,8 +197,11 @@ public class Item {
     private boolean consumed;
     private int cooldown;
     private String sound;
+    private List<String> permittedWorlds;
+    private RegionCondition regionCondition;
 
-    public Item(String id, ItemStack itemStack, List<String> commands, List<String> messages, boolean consumed, int cooldown, String sound) {
+    public Item(String id, ItemStack itemStack, List<String> commands, List<String> messages, boolean consumed, int cooldown,
+                String sound, List<String> permittedWorlds, RegionCondition regionCondition) {
         this.id = id;
         this.itemStack = itemStack;
         this.commands = commands;
@@ -205,6 +209,8 @@ public class Item {
         this.consumed = consumed;
         this.cooldown = cooldown;
         this.sound = sound;
+        this.permittedWorlds = permittedWorlds;
+        this.regionCondition = regionCondition;
     }
 
     /**
@@ -304,6 +310,14 @@ public class Item {
 
     public int getCooldown() {
         return cooldown;
+    }
+
+    public List<String> getPermittedWorlds() {
+        return permittedWorlds;
+    }
+
+    public RegionCondition getRegionCondition() {
+        return regionCondition;
     }
 
     @Override

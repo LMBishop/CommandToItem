@@ -102,7 +102,9 @@ public class CommandToItem extends JavaPlugin {
         FULL_INV("full-inv", "&c%player%'s inventory is full!"),
         GIVE_ITEM("give-item", "&6Given &e%player% %item%&6."),
         RECEIVE_ITEM("receive-item", "&6You have been given %item%&6."),
-        COOLDOWN("cooldown", "&cYou must wait &4%cooldown% &cseconds before using this item again.");
+        COOLDOWN("cooldown", "&cYou must wait &4%cooldown% &cseconds before using this item again."),
+        REGION_NOT_PERMITTED("region-not-permitted", "&cYou cannot use this item here."),
+        WORLD_NOT_PERMITTED("world-not-permitted", "&cYou cannot use this item here.");
 
         private String id;
         private String def; // (default message if undefined)
