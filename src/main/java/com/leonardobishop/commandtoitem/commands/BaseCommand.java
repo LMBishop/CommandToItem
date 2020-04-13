@@ -7,14 +7,18 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class BaseCommand implements CommandExecutor {
+public class BaseCommand implements CommandExecutor, TabCompleter {
 
     private CommandToItem plugin;
+    private ArrayList<String> nameCache;
 
     public BaseCommand(CommandToItem plugin) {
         this.plugin = plugin;
@@ -32,6 +36,7 @@ public class BaseCommand implements CommandExecutor {
                     return true;
                 } else if (args[0].equals("reload")) {
                     plugin.reloadConfig();
+                    refreshNameCache();
                     sender.sendMessage(ChatColor.GRAY + "CommandToItem has been reloaded");
                     return true;
                 }
@@ -93,4 +98,26 @@ public class BaseCommand implements CommandExecutor {
         return true;
     }
 
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String s, String[] args) {
+        if (nameCache == null) {
+            refreshNameCache();
+        }
+        if (args.length < 2) {
+            List<String> completions = new ArrayList<>();
+            StringUtil.copyPartialMatches(args[0], nameCache, completions);
+            Collections.sort(completions);
+            return completions;
+        }
+        return null;
+    }
+
+    public void refreshNameCache() {
+        nameCache = new ArrayList<>();
+        for (Item i : plugin.getItems()) {
+            nameCache.add(i.getId());
+        }
+//        nameCache.add("list");
+//        nameCache.add("reload");
+    }
 }
