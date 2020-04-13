@@ -1,3 +1,11 @@
+# =========================
+# CommandToItem by LMBishop
+# =========================
+#  - Spigot page: https://www.spigotmc.org/resources/19937/
+#  - Default config: https://github.com/LMBishop/CommandToItem/blob/master/src/main/resources/config.yml
+#  - Source code: https://github.com/LMBishop/CommandToItem
+#  - Wiki: https://github.com/LMBishop/CommandToItem/wiki/Configuration
+
 # List items here
 items:
   weed:
@@ -31,8 +39,9 @@ items:
     name: "&c&lInstant Death &7(Example Item)"
     item: SPIDER_EYE
     # You can give an item enchantments
-    enchantments: # list -> https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html
-      - "ARROW_INFINITE:1"
+                  # (pre-1.13) USE SPIGOT NAMES -> format "{enchantment}:{level}" -> https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html
+    enchantments: # (1.13+) USE VANILLA NAMES -> namespace for vanilla enchantments is "minecraft" -> format "{namespace}:{enchantment}:{level}"
+      - "minecraft:infinity:1"
     # + add the item flag to hide it
     itemflags: # list -> https://hub.spigotmc.org/javadocs/spigot/org/bukkit/inventory/ItemFlag.html
       - "HIDE_ENCHANTS"
@@ -76,7 +85,7 @@ items:
   dodgy-apple:
     name: "&2&lDodgy Apple &7(Example Item)"
     item: APPLE
-    # You can add custom model data
+    # (1.14+ ONLY FEATURE) You can add custom model data
     custommodeldata: 12345
     lore:
       - "&7Something seems off about this apple..."
@@ -87,7 +96,7 @@ items:
   speed-boost:
     name: "&7&lSpeed Boost &7(Example Item)"
     item: SUGAR
-    # You can also add attribute modifiers (not recommended if you don't know what you're doing & know how to use it in game)
+    # (1.13+ ONLY FEATURE) You can also add attribute modifiers (not recommended if you don't know what you're doing & know how to use it in game)
     attributemodifiers:
       - attribute: GENERIC_MOVEMENT_SPEED # list -> https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/Attribute.html
         modifier:
