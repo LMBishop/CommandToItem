@@ -78,7 +78,7 @@ public class CommandToItem extends JavaPlugin {
             ItemStack is = itemGetter.getItem("items." + s, this.getConfig(), this);
 
             // supports old config layout without "on-use"
-            boolean consume = this.getConfig().getBoolean("items." + s + "on-use.consume",
+            boolean consume = this.getConfig().getBoolean("items." + s + ".on-use.consume",
                     this.getConfig().getBoolean("items." + s + ".consume", true));
 
             List<String> commands;
