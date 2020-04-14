@@ -5,6 +5,7 @@ version: %PLUGIN_VERSION%
 
 main: com.leonardobishop.commandtoitem.CommandToItem
 author: LMBishop
+api-version: "1.13"  # enables the new material thing even though the plugin fully supports 1.8
 
 commands:
   commandtoitem:

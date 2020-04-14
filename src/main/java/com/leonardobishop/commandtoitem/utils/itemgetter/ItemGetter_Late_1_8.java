@@ -1,5 +1,6 @@
 package com.leonardobishop.commandtoitem.utils.itemgetter;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -11,6 +12,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class ItemGetter_Late_1_8 implements ItemGetter {
     /*
@@ -18,7 +21,7 @@ public class ItemGetter_Late_1_8 implements ItemGetter {
 
     supporting:
      - name
-     - material
+     - material (+ DATA)
      - lore
      - enchantments (NOT NamespacedKey)
      - itemflags
@@ -46,8 +49,22 @@ public class ItemGetter_Late_1_8 implements ItemGetter {
         name = ChatColor.translateAlternateColorCodes('&', cName);
 
         // material
-        type = Material.matchMaterial(cType);
+        if (Material.getMaterial(cType) != null) {
+            type = Material.getMaterial(cType);
+        } else if (cType.contains(":")) {
+            String[] parts = cType.split(Pattern.quote(":"));
+            if (parts.length > 1) {
+                if (Material.getMaterial(parts[0]) != null) {
+                    type = Material.getMaterial(parts[0]);
+                }
+                if (StringUtils.isNumeric(parts[1])) {
+                    data = Integer.parseInt(parts[1]);
+                }
+            }
+        }
+
         if (type == null) {
+            plugin.getLogger().warning("Unrecognised material: " + cType);
             type = Material.STONE;
         }
 

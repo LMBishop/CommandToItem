@@ -61,8 +61,10 @@ public class ItemGetterLatest implements ItemGetter {
         name = ChatColor.translateAlternateColorCodes('&', cName);
 
         // material
-        type = Material.matchMaterial(cType);
-        if (type == null) {
+        try {
+            type = Material.valueOf(cType);
+        } catch (Exception e) {
+            plugin.getLogger().warning("Unrecognised material: " + cType);
             type = Material.STONE;
         }
 
