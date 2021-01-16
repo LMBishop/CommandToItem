@@ -1,6 +1,10 @@
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/LMBishop/CommandToItem.svg)](http://isitmaintained.com/project/LMBishop/CommandToItem "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/LMBishop/CommandToItem.svg)](http://isitmaintained.com/project/LMBishop/CommandToItem "Percentage of issues still open")
+<p align="center">
+<img src="https://leonardobishop.com/artwork/CommandToItem%20Ribbon%20Thinner%20Lines.png" width="200" height="200"><br>
+<img src="http://isitmaintained.com/badge/resolution/LMBishop/CommandToItem.svg">
+<img src="http://isitmaintained.com/badge/open/LMBishop/CommandToItem.svg"><br>
+<h1 align="center">CommandToItem</h1>
+</p>
 
-# CommandToItem
 A lightweight plugin which allows you to create consumable command items.
 
 ## Building
