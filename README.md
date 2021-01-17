@@ -1,7 +1,8 @@
 <p align="center">
 <img src="https://leonardobishop.com/artwork/CommandToItem%20Ribbon%20Thinner%20Lines.png" width="200" height="200"><br>
 <img src="http://isitmaintained.com/badge/resolution/LMBishop/CommandToItem.svg">
-<img src="http://isitmaintained.com/badge/open/LMBishop/CommandToItem.svg"><br>
+<img src="http://isitmaintained.com/badge/open/LMBishop/CommandToItem.svg">
+<img src="http://badge.henrya.org/spigot/downloads?id=19937"><br>
 <h1 align="center">CommandToItem</h1>
 </p>
 
