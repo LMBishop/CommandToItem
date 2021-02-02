@@ -78,7 +78,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 
                         sender.sendMessage(plugin.getMessage(CommandToItem.Message.GIVE_ITEM).replace("%player%", target.getName()).replace("%item%", item.getItemStack().getItemMeta().getDisplayName()));
                     } else {
-                        sender.sendMessage(plugin.getMessage(CommandToItem.Message.FULL_INV);
+                        sender.sendMessage(plugin.getMessage(CommandToItem.Message.FULL_INV).replace("%player%", target.getName()));
                     }
                     return true;
                 }
