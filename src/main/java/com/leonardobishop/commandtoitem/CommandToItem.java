@@ -131,6 +131,7 @@ public class CommandToItem extends JavaPlugin {
         FULL_INV("full-inv", "&c%player%'s inventory is full!"),
         GIVE_ITEM("give-item", "&6Given &e%player% %item%&6."),
         RECEIVE_ITEM("receive-item", "&6You have been given %item%&6."),
+        RECEIVE_ITEM_INVENTORY_FULL("receive-item-inventory-full", "&6You have been given %item%&6, but it was dropped at your feet because your inventory is full."),
         COOLDOWN("cooldown", "&cYou must wait &4%cooldown% &cseconds before using this item again.");
 
         private String id;

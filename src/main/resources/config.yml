@@ -125,10 +125,12 @@ items:
 # Options here
 options:
   show-receive-message: true
+  drop-if-full-inventory: false # If true and the player has a full inventory, drop the item at their feet. If false and the player has a full inventory, the item is lost.
 
 # Messages here
 messages:
   full-inv: "&c%player%'s inventory is full!"
   give-item: "&6Given &e%player% %item%&6."
   receive-item: "&6You have been given %item%&6."
+  receive-item-inventory-full: "&6You have been given %item%&6, but it was dropped at your feet because your inventory is full."
   cooldown: "&cYou must wait &4%cooldown% &cseconds before using this item again."
