@@ -17,17 +17,18 @@ import java.util.concurrent.TimeUnit;
 
 public class Item {
 
-    private Map<UUID, Long> cooldowns = new HashMap<>();
+    private final Map<UUID, Long> cooldowns = new HashMap<>();
 
-    private String id;
-    private ItemStack itemStack;
-    private List<String> commands;
-    private List<String> messages;
-    private boolean consumed;
-    private int cooldown;
-    private String sound;
+    private final String id;
+    private final ItemStack itemStack;
+    private final List<String> commands;
+    private final List<String> messages;
+    private final boolean consumed;
+    private final int cooldown;
+    private final String sound;
+    private final boolean permissionRequired;
 
-    public Item(String id, ItemStack itemStack, List<String> commands, List<String> messages, boolean consumed, int cooldown, String sound) {
+    public Item(String id, ItemStack itemStack, List<String> commands, List<String> messages, boolean consumed, int cooldown, String sound, boolean permissionRequired) {
         this.id = id;
         this.itemStack = itemStack;
         this.commands = commands;
@@ -35,6 +36,7 @@ public class Item {
         this.consumed = consumed;
         this.cooldown = cooldown;
         this.sound = sound;
+        this.permissionRequired = permissionRequired;
     }
 
     /**
@@ -134,6 +136,10 @@ public class Item {
 
     public int getCooldown() {
         return cooldown;
+    }
+
+    public boolean isPermissionRequired() {
+        return permissionRequired;
     }
 
     @Override

@@ -95,7 +95,10 @@ public class CommandToItem extends JavaPlugin {
             String sound = this.getConfig().getString("items." + s + ".on-use.sound",
                     this.getConfig().getString("items." + s + ".sound", null));
 
-            items.add(new Item(s.replace(" ", "_"), is, commands, messages, consume, cooldown, sound));
+            boolean permissionRequired = this.getConfig().getBoolean("items." + s + ".options.permission-required",
+                    false);
+
+            items.add(new Item(s.replace(" ", "_"), is, commands, messages, consume, cooldown, sound, permissionRequired));
         }
 
 
@@ -132,10 +135,11 @@ public class CommandToItem extends JavaPlugin {
         GIVE_ITEM("give-item", "&6Given &e%player% %item%&6."),
         RECEIVE_ITEM("receive-item", "&6You have been given %item%&6."),
         RECEIVE_ITEM_INVENTORY_FULL("receive-item-inventory-full", "&6You have been given %item%&6, but it was dropped at your feet because your inventory is full."),
-        COOLDOWN("cooldown", "&cYou must wait &4%cooldown% &cseconds before using this item again.");
+        COOLDOWN("cooldown", "&cYou must wait &4%cooldown% &cseconds before using this item again."),
+        NO_PERMISSION("no-permission", "&cYou cannot use this item.");
 
-        private String id;
-        private String def; // (default message if undefined)
+        private final String id;
+        private final String def; // (default message if undefined)
 
         Message(String id, String def) {
             this.id = id;

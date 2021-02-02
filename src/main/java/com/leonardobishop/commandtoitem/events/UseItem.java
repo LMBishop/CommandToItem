@@ -43,6 +43,10 @@ public class UseItem implements Listener {
                             .replace("%cooldown%", String.valueOf(item.getCooldownFor(event.getPlayer()))));
                     return;
                 }
+                if (item.isPermissionRequired() && !event.getPlayer().hasPermission("commandtoitem.use." + item.getId())) {
+                    event.getPlayer().sendMessage(plugin.getMessage(CommandToItem.Message.NO_PERMISSION));
+                    return;
+                }
                 if (item.isConsumed()) {
                     if (is.getAmount() == 1) {
                         player.setItemInHand(null);

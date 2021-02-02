@@ -50,6 +50,9 @@ items:
     on-use:
       commands:
         - "kill %player%"
+    # & permission required (in this case commandtoitem.use.instant-death)
+    options:
+      permission-required: true
 
   strength-sword:
     name: "&e&lInstant Strength &7(Example Item)"
@@ -134,3 +137,4 @@ messages:
   receive-item: "&6You have been given %item%&6."
   receive-item-inventory-full: "&6You have been given %item%&6, but it was dropped at your feet because your inventory is full."
   cooldown: "&cYou must wait &4%cooldown% &cseconds before using this item again."
+  no-permission: "&cYou cannot use this item."
