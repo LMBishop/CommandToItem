@@ -72,7 +72,14 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if (target.getInventory().firstEmpty() == -1) {
-                    sender.sendMessage(plugin.getMessage(CommandToItem.Message.FULL_INV));
+                    if (plugin.getConfig().getBoolean("options.drop-if-full-inventory", true)) {
+                        target.getWorld().dropItem(target.getLocation(), item.getItemStack());
+                        target.sendMessage(plugin.getMessage(CommandToItem.Message.RECEIVE_ITEM_INVENTORY_FULL).replace("%item%", item.getItemStack().getItemMeta().getDisplayName()));
+
+                        sender.sendMessage(plugin.getMessage(CommandToItem.Message.GIVE_ITEM).replace("%player%", target.getName()).replace("%item%", item.getItemStack().getItemMeta().getDisplayName()));
+                    } else {
+                        sender.sendMessage(plugin.getMessage(CommandToItem.Message.FULL_INV);
+                    }
                     return true;
                 }
 
