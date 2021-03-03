@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.leonardobishop'
+version = '2.5'
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        include 'plugin.yml'
+        expand('version': project.version)
+    }
+}
+
+repositories {
+    mavenCentral()
+
+    // Spigot
+    maven { url = uri('https://hub.spigotmc.org/nexus/content/repositories/snapshots/') }
+}
+
+dependencies {
+    // Spigot
+    compileOnly ('org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT') {
+        exclude group: 'net.md-5', module: 'bungeecord-chat'
+    }
+}
+
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+

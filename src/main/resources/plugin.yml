@@ -1,7 +1,7 @@
 name: CommandToItem
 
-# This will be replaced with the property "release.version" in pom.xml upon build.
-version: %PLUGIN_VERSION%
+# This will be replaced with the property "version" in build.gradle upon build.
+version: ${version}
 
 main: com.leonardobishop.commandtoitem.CommandToItem
 author: LMBishop
