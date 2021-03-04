@@ -9,7 +9,7 @@
 A lightweight plugin which allows you to create consumable command items.
 
 ## Building
-Release versions can be found on [Spigot](https://www.spigotmc.org/resources/19937/).
+Release versions can be found primarily on [Spigot](https://www.spigotmc.org/resources/19937/).
 
 You can build CommandToItem yourself using Gradle by cloning the repo and using the command `gradlew build`.
 
@@ -34,7 +34,7 @@ You can include CommandToItem in your project using [JitPack](https://jitpack.io
 ### Gradle
 ```groovy
 repositories {
-    maven { url = 'https://jitpack.io' }
+    maven { url = uri('https://jitpack.io') }
 }  
 dependencies {
     compileOnly 'com.github.LMBishop:CommandToItem:master-SNAPSHOT'
@@ -42,6 +42,8 @@ dependencies {
 ```
 
 ## Contributing 
-We welcome all contributions, we will check out all pull requests and determine if it should be added to Quests
+We welcome all contributions, we will check out all pull requests and determine if it should be added to CommandToItem. 
+
+Assistance of all forms is appreciated 🙂
 
 By contributing to CommandToItem you agree to license your code under the [GNU General Public License v3.0](https://github.com/LMBishop/CommandToItem/blob/master/LICENSE.txt).
