@@ -46,15 +46,13 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 
                 Player target = null;
 
-                if (args.length == 2) {
+                if (args.length >= 2) {
                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                         if (!p.getName().equalsIgnoreCase(args[1]))
                             continue;
                         target = p;
                         break;
                     }
-                } else if (sender instanceof Player) {
-                    target = ((Player) sender);
                 }
 
                 if (target == null) {
