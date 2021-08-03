@@ -84,10 +84,9 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                        sender.sendMessage(plugin.getMessage(CommandToItem.Message.GIVE_ITEM).replace("%player%", target.getName()).replace("%item%", item.getItemStack().getItemMeta().getDisplayName()));
-                    } else {
-                        sender.sendMessage(plugin.getMessage(CommandToItem.Message.FULL_INV).replace("%player%", target.getName()));
-                    }
+                // If adding items would cause inventory overflow and lost items can't be dropped at feet, cancel adding items
+                if (!plugin.getConfig().getBoolean("options.drop-if-full-inventory", false) && !canAddItems(amount, target, itemStack)) {
+                    sender.sendMessage(plugin.getMessage(CommandToItem.Message.FULL_INV).replace("%player%", target.getName()));
                     return true;
                 }
 
@@ -145,5 +144,24 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
             }
         }
         return item;
+    }
+
+    // Check if adding new items would cause inventory to overflow. If inventory is full and lost items aren't dropped at feet, cancel adding items
+    private boolean canAddItems(int amount, Player target, ItemStack itemToAdd) {
+        int amountAbleToAdd = 0;
+        for (int i = 0; i < 36; i++) {
+            ItemStack usersItemStack = target.getInventory().getItem(i);
+            if (usersItemStack == null) {
+                // If slot is empty, it can be filled with an entire stack of new item
+                amountAbleToAdd += itemToAdd.getMaxStackSize();
+            } else if (usersItemStack.isSimilar(itemToAdd)) {
+                // If slot is same as item, it can be filled until it reaches max stack size
+                amountAbleToAdd += itemToAdd.getMaxStackSize() - usersItemStack.getAmount();
+            }
+
+            if (amountAbleToAdd >= amount) break; // Exit loop early if we're able to add sufficient items
+        }
+
+        return amountAbleToAdd >= amount;
     }
 }
