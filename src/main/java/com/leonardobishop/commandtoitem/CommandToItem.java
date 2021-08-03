@@ -131,11 +131,11 @@ public class CommandToItem extends JavaPlugin {
 
     public enum Message {
 
-        FULL_INV("full-inv", "&c%player%'s inventory is full!"),
-        GIVE_ITEM("give-item", "&6Given &e%player% %item%&6."),
-        RECEIVE_ITEM("receive-item", "&6You have been given %item%&6."),
+        FULL_INV("full-inv", "&c%player% doesn't have enough space in their inventory!"),
+        GIVE_ITEM("give-item", "&6Given &e%player% &6%amount% %item%&6."),
+        RECEIVE_ITEM("receive-item", "&6You have been given %amount% %item%&6."),
         RECEIVE_ITEM_INVENTORY_FULL("receive-item-inventory-full", "&6You have been given %item%&6, but it was dropped at your feet because your inventory is full."),
-        COOLDOWN("cooldown", "&cYou must wait &4%cooldown% &cseconds before using this item again."),
+        COOLDOWN("cooldown", "&6You have been given %given_amount% %item%&6, but %dropped_amount% dropped at your feet because your inventory is full."),
         NO_PERMISSION("no-permission", "&cYou cannot use this item.");
 
         private final String id;
