@@ -73,7 +73,6 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
                 }
 
                 Item item = getItemByName(args[0]);
-                ItemStack itemStack = item.getItemStack(); // Get the item stack
                 if (item == null) {
                     sender.sendMessage(ChatColor.RED + "The item " + ChatColor.DARK_RED + args[0] + ChatColor.RED + " could not be found.");
                     return true;
@@ -83,6 +82,8 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage(ChatColor.RED + "Please enter an amount between " + ChatColor.DARK_RED + "1" + ChatColor.RED + " and " + ChatColor.DARK_RED + maxAllowedItems + ChatColor.RED + ".");
                     return true;
                 }
+
+                ItemStack itemStack = item.getItemStack(); // Get the item stack
 
                 // If adding items would cause inventory overflow and lost items can't be dropped at feet, cancel adding items
                 if (!plugin.getConfig().getBoolean("options.drop-if-full-inventory", false) && !canAddItems(amount, target, itemStack)) {
