@@ -140,6 +140,27 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
             StringUtil.copyPartialMatches(args[0], nameCache, completions);
             Collections.sort(completions);
             return completions;
+        } else if (args.length == 3) {
+            // Add common amounts that you specify do for this item
+            Item item = getItemByName(args[0]); // Get item from arg name
+            List<String> amounts = new ArrayList<>(); // List to store all numbers
+
+            // If item doesn't exist, return blank array list
+            if (item == null) return amounts;
+
+            int maxStackSize = item.getItemStack().getMaxStackSize(); // Get max stack size of this item
+            for (int i = 1; i <= maxStackSize; i++) {
+                // Add numbers from 1 to max item size
+                amounts.add(Integer.toString(i));
+            }
+            if (!amounts.contains("64")) amounts.add("64"); // If 64 not in list, add it
+
+            // Match typed number to the list created
+            List<String> completions = new ArrayList<>(); // List to store all matched numbers
+            StringUtil.copyPartialMatches(args[2], amounts, completions);
+            Collections.sort(completions);
+
+            return completions;
         }
         return null;
     }
