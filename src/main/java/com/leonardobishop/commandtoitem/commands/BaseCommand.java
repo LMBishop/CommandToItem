@@ -9,6 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
@@ -70,6 +71,9 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
                         amount = 0;
                     }
                 }
+
+                Item item = getItemByName(args[0]);
+                ItemStack itemStack = item.getItemStack(); // Get the item stack
                 if (item == null) {
                     sender.sendMessage(ChatColor.RED + "The item " + ChatColor.DARK_RED + args[0] + ChatColor.RED + " could not be found.");
                     return true;
@@ -130,5 +134,16 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
         }
 //        nameCache.add("list");
 //        nameCache.add("reload");
+    }
+
+    private Item getItemByName(String name) {
+        Item item = null;
+        for (Item i : plugin.getItems()) {
+            if (i.getId().equals(name)) {
+                item = i;
+                break;
+            }
+        }
+        return item;
     }
 }
