@@ -90,7 +90,18 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                target.getInventory().addItem(item.getItemStack());
+                // Add items one-by-one
+                int addedItems = 0;
+                for (int i = 0; i < amount; i++) {
+                    if (!canAddItems(1, target, itemStack)) {
+                        // If inventory is full, drop item
+                        target.getWorld().dropItem(target.getLocation(), item.getItemStack());
+                    } else {
+                        // If inventory has space, add item
+                        target.getInventory().addItem(itemStack);
+                        addedItems++;
+                    }
+                }
 
                 sender.sendMessage(plugin.getMessage(CommandToItem.Message.GIVE_ITEM).replace("%player%",
                         target.getName()).replace("%item%", item.getItemStack().getItemMeta().getDisplayName()));
