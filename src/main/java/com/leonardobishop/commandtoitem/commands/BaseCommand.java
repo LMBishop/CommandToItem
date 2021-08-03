@@ -121,7 +121,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "Command To Item (ver " + plugin.getDescription().getVersion() + ")");
             sender.sendMessage(ChatColor.GRAY + "<> = required, [] = optional");
             sender.sendMessage(ChatColor.YELLOW + "/cti :" + ChatColor.GRAY + " view this menu");
-            sender.sendMessage(ChatColor.YELLOW + "/cti <item> [player] :" + ChatColor.GRAY + " give <item> to [player] (or self if blank)");
+            sender.sendMessage(ChatColor.YELLOW + "/cti <item> <player> [amount] :" + ChatColor.GRAY + " give [amount] of <item> to <player> (or 1 if no amount specified)");
             sender.sendMessage(ChatColor.YELLOW + "/cti list :" + ChatColor.GRAY + " list all items");
             sender.sendMessage(ChatColor.YELLOW + "/cti reload :" + ChatColor.GRAY + " reload the config");
             return true;
