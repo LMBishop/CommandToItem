@@ -136,6 +136,9 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length < 2) {
             List<String> completions = new ArrayList<>();
+            List<String> options = nameCache;
+            options.add("reload");
+            options.add("list");
             StringUtil.copyPartialMatches(args[0], nameCache, completions);
             Collections.sort(completions);
             return completions;
@@ -169,8 +172,6 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
         for (Item i : plugin.getItems()) {
             nameCache.add(i.getId());
         }
-//        nameCache.add("list");
-//        nameCache.add("reload");
     }
 
     private Item getItemByName(String name) {
