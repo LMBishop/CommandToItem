@@ -138,3 +138,8 @@ messages:
   receive-item-inventory-full: "&6You have been given %given_amount% %item%&6, but %dropped_amount% dropped at your feet because your inventory is full."
   cooldown: "&cYou must wait &4%cooldown% &cseconds before using this item again."
   no-permission: "&cYou cannot use this item."
+  item-list: "&6Items: &e%items%"
+  reload: "&7CommandToItem has been reloaded"
+  player-not-found: "&cThe specified player could not be found."
+  item-not-found: "&cThe item &4%item%&c could not be found."
+  item-limits: "&cPlease enter an amount between &4%min%&c and &4%max%&c."

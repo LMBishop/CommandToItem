@@ -34,12 +34,12 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
                     for (Item item : plugin.getItems()) {
                         ids.add(item.getId());
                     }
-                    sender.sendMessage(ChatColor.GOLD + "Items: " + ChatColor.YELLOW + String.join(ChatColor.GRAY + ", " + ChatColor.YELLOW, ids));
+                    sender.sendMessage(plugin.getMessage(CommandToItem.Message.ITEM_LIST).replace("%items%", String.join(", ", ids)));
                     return true;
                 } else if (args[0].equals("reload")) {
                     plugin.reloadConfig();
                     refreshNameCache();
-                    sender.sendMessage(ChatColor.GRAY + "CommandToItem has been reloaded");
+                    sender.sendMessage(plugin.getMessage(CommandToItem.Message.RELOAD));
                     return true;
                 }
 
@@ -56,7 +56,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
                 }
 
                 if (target == null) {
-                    sender.sendMessage(ChatColor.RED + "The specified player could not be found.");
+                    sender.sendMessage(plugin.getMessage(CommandToItem.Message.PLAYER_NOT_FOUND));
                     return true;
                 }
 
@@ -72,12 +72,12 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 
                 Item item = getItemByName(args[0]);
                 if (item == null) {
-                    sender.sendMessage(ChatColor.RED + "The item " + ChatColor.DARK_RED + args[0] + ChatColor.RED + " could not be found.");
+                    sender.sendMessage(plugin.getMessage(CommandToItem.Message.ITEM_NOT_FOUND).replace("%item%", args[0]));
                     return true;
                 }
                 // Limitations for item amount
                 if (amount > maxAllowedItems || amount < 1) {
-                    sender.sendMessage(ChatColor.RED + "Please enter an amount between " + ChatColor.DARK_RED + "1" + ChatColor.RED + " and " + ChatColor.DARK_RED + maxAllowedItems + ChatColor.RED + ".");
+                    sender.sendMessage(plugin.getMessage(CommandToItem.Message.ITEM_LIMITS).replace("%min%", "1").replace("%max%", Integer.toString(maxAllowedItems)));
                     return true;
                 }
 
