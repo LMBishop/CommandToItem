@@ -19,6 +19,7 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
 
     private CommandToItem plugin;
     private ArrayList<String> nameCache;
+    private final int maxAllowedItems = 2147483647;
 
     public BaseCommand(CommandToItem plugin) {
         this.plugin = plugin;
@@ -60,21 +61,24 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                Item item = null;
-                for (Item i : plugin.getItems()) {
-                    if (i.getId().equals(args[0])) {
-                        item = i;
-                        break;
+                // If a third argument is specified, validate it as an amount. Otherwise, use 1 as default
+                int amount = 1;
+                if (args.length > 2) {
+                    try {
+                        amount = Integer.parseInt(args[2]);
+                    } catch (NumberFormatException | NullPointerException e) {
+                        amount = 0;
                     }
                 }
                 if (item == null) {
                     sender.sendMessage(ChatColor.RED + "The item " + ChatColor.DARK_RED + args[0] + ChatColor.RED + " could not be found.");
                     return true;
                 }
-                if (target.getInventory().firstEmpty() == -1) {
-                    if (plugin.getConfig().getBoolean("options.drop-if-full-inventory", true)) {
-                        target.getWorld().dropItem(target.getLocation(), item.getItemStack());
-                        target.sendMessage(plugin.getMessage(CommandToItem.Message.RECEIVE_ITEM_INVENTORY_FULL).replace("%item%", item.getItemStack().getItemMeta().getDisplayName()));
+                // Limitations for item amount
+                if (amount > maxAllowedItems || amount < 1) {
+                    sender.sendMessage(ChatColor.RED + "Please enter an amount between " + ChatColor.DARK_RED + "1" + ChatColor.RED + " and " + ChatColor.DARK_RED + maxAllowedItems + ChatColor.RED + ".");
+                    return true;
+                }
 
                         sender.sendMessage(plugin.getMessage(CommandToItem.Message.GIVE_ITEM).replace("%player%", target.getName()).replace("%item%", item.getItemStack().getItemMeta().getDisplayName()));
                     } else {
