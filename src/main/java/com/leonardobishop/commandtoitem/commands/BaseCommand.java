@@ -103,12 +103,19 @@ public class BaseCommand implements CommandExecutor, TabCompleter {
                     }
                 }
 
-                sender.sendMessage(plugin.getMessage(CommandToItem.Message.GIVE_ITEM).replace("%player%",
-                        target.getName()).replace("%item%", item.getItemStack().getItemMeta().getDisplayName()));
+                int lostItems = amount - addedItems;
                 if (plugin.getConfig().getBoolean("options.show-receive-message", true)) {
-                    target.sendMessage(plugin.getMessage(CommandToItem.Message.RECEIVE_ITEM).replace("%player%",
-                            target.getName()).replace("%item%", item.getItemStack().getItemMeta().getDisplayName()));
+                    if (lostItems > 0) {
+                        // If some items were dropped in the process, notify user
+                        target.sendMessage(plugin.getMessage(CommandToItem.Message.RECEIVE_ITEM_INVENTORY_FULL).replace("%item%", item.getItemStack().getItemMeta().getDisplayName()).replace("%given_amount%", Integer.toString(amount)).replace("%dropped_amount%", Integer.toString(lostItems)));
+                    } else {
+                        // If no items lost, send success message
+                        target.sendMessage(plugin.getMessage(CommandToItem.Message.RECEIVE_ITEM).replace("%player%",
+                                target.getName()).replace("%item%", item.getItemStack().getItemMeta().getDisplayName()).replace("%amount%", Integer.toString(amount)));
+                    }
                 }
+
+                sender.sendMessage(plugin.getMessage(CommandToItem.Message.GIVE_ITEM).replace("%player%", target.getName()).replace("%item%", item.getItemStack().getItemMeta().getDisplayName()).replace("%amount%", Integer.toString(amount)));
                 return true;
             }
 

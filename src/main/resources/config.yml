@@ -132,9 +132,9 @@ options:
 
 # Messages here
 messages:
-  full-inv: "&c%player%'s inventory is full!"
-  give-item: "&6Given &e%player% %item%&6."
-  receive-item: "&6You have been given %item%&6."
-  receive-item-inventory-full: "&6You have been given %item%&6, but it was dropped at your feet because your inventory is full."
+  full-inv: "&c%player%'s doesn't have enough space in their inventory!"
+  give-item: "&6Given &e%player% &6%amount% %item%&6."
+  receive-item: "&6You have been given %amount% %item%&6."
+  receive-item-inventory-full: "&6You have been given %given_amount% %item%&6, but %dropped_amount% dropped at your feet because your inventory is full."
   cooldown: "&cYou must wait &4%cooldown% &cseconds before using this item again."
   no-permission: "&cYou cannot use this item."
