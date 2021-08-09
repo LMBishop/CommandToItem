@@ -3,9 +3,10 @@ plugins {
 }
 
 group = 'com.leonardobishop'
-version = '2.5'
+version = '2.6'
 
 processResources {
+    duplicatesStrategy = 'exclude'
     from(sourceSets.main.resources.srcDirs) {
         include 'plugin.yml'
         expand('version': project.version)
